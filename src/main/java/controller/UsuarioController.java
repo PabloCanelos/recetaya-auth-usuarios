@@ -40,7 +40,7 @@ public class UsuarioController {
     // BUSCAR USUARIO POR ID
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioEntity> buscarPorId(
-            @PathVariable Long id) {
+            @PathVariable Integer id) {
 
         UsuarioEntity usuario =
                 usuarioService.buscarPorId(id);
@@ -75,7 +75,7 @@ public class UsuarioController {
     // ACTUALIZAR USUARIO
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioEntity> actualizarUsuario(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody UsuarioEntity usuario) {
 
         UsuarioEntity usuarioActualizado =
@@ -87,7 +87,7 @@ public class UsuarioController {
     // ELIMINAR USUARIO
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarUsuario(
-            @PathVariable Long id) {
+            @PathVariable Integer id) {
 
         usuarioService.eliminarUsuario(id);
 
@@ -99,7 +99,7 @@ public class UsuarioController {
     // ACTIVAR USUARIO
     @PatchMapping("/{id}/activar")
     public ResponseEntity<UsuarioEntity> activarUsuario(
-            @PathVariable Long id) {
+            @PathVariable Integer id) {
 
         UsuarioEntity usuario =
                 usuarioService.activarUsuario(id);
@@ -110,7 +110,7 @@ public class UsuarioController {
     // DESACTIVAR USUARIO
     @PatchMapping("/{id}/desactivar")
     public ResponseEntity<UsuarioEntity> desactivarUsuario(
-            @PathVariable Long id) {
+            @PathVariable  Integer id) {
 
         UsuarioEntity usuario =
                 usuarioService.desactivarUsuario(id);

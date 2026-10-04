@@ -21,7 +21,7 @@ public class RolService {
     }
 
     // BUSCAR POR ID
-    public RolEntity buscarPorId(Long id) {
+    public RolEntity buscarPorId(Integer id) {
 
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El ID del rol debe ser válido");
@@ -66,7 +66,7 @@ public class RolService {
     }
 
     // ACTUALIZAR
-    public RolEntity actualizarRol(Long id, RolEntity datosRol) {
+    public RolEntity actualizarRol(Integer id, RolEntity datosRol) {
 
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El ID del rol debe ser válido");
@@ -99,7 +99,7 @@ public class RolService {
     }
 
     // ELIMINAR
-    public void eliminarRol(Long id) {
+    public void eliminarRol(Integer id) {
 
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El ID del rol debe ser válido");

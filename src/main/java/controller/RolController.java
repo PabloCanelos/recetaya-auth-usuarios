@@ -38,7 +38,7 @@ public class RolController {
     // BUSCAR ROL POR ID
     @GetMapping("/{id}")
     public ResponseEntity<RolEntity> buscarPorId(
-            @PathVariable Long id) {
+            @PathVariable Integer id) {
 
         RolEntity rol = rolService.buscarPorId(id);
 
@@ -70,7 +70,7 @@ public class RolController {
     // ACTUALIZAR ROL
     @PutMapping("/{id}")
     public ResponseEntity<RolEntity> actualizarRol(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody RolEntity rol) {
 
         RolEntity rolActualizado =
@@ -82,7 +82,7 @@ public class RolController {
     // ELIMINAR ROL
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarRol(
-            @PathVariable Long id) {
+            @PathVariable Integer id) {
 
         rolService.eliminarRol(id);
 

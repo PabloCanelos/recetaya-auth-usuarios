@@ -27,7 +27,7 @@ public class UsuarioService {
     }
 
     // BUSCAR POR ID
-    public UsuarioEntity buscarPorId(Long id) {
+    public UsuarioEntity buscarPorId(Integer id) {
 
         validarId(id);
 
@@ -84,7 +84,7 @@ public class UsuarioService {
             );
         }
 
-        Long idRol = usuario.getRol().getIdRol();
+        Integer idRol = usuario.getRol().getIdRol();
 
         if (idRol <= 0) {
             throw new IllegalArgumentException(
@@ -117,7 +117,7 @@ public class UsuarioService {
 
     // ACTUALIZAR USUARIO
     public UsuarioEntity actualizarUsuario(
-            Long id,
+            Integer id,
             UsuarioEntity datosUsuario) {
 
         validarId(id);
@@ -162,7 +162,7 @@ public class UsuarioService {
             );
         }
 
-        Long idRol = datosUsuario.getRol().getIdRol();
+        Integer idRol = datosUsuario.getRol().getIdRol();
 
         if (idRol <= 0) {
             throw new IllegalArgumentException(
@@ -201,7 +201,7 @@ public class UsuarioService {
     }
 
     // ELIMINAR USUARIO
-    public void eliminarUsuario(Long id) {
+    public void eliminarUsuario(Integer id) {
 
         validarId(id);
 
@@ -217,7 +217,7 @@ public class UsuarioService {
     }
 
     // ACTIVAR USUARIO
-    public UsuarioEntity activarUsuario(Long id) {
+    public UsuarioEntity activarUsuario(Integer id) {
 
         UsuarioEntity usuario = buscarPorId(id);
 
@@ -233,7 +233,7 @@ public class UsuarioService {
     }
 
     // DESACTIVAR USUARIO
-    public UsuarioEntity desactivarUsuario(Long id) {
+    public UsuarioEntity desactivarUsuario(Integer id) {
 
         UsuarioEntity usuario = buscarPorId(id);
 
@@ -252,7 +252,7 @@ public class UsuarioService {
     // VALIDACIONES INTERNAS
     // ==============================
 
-    private void validarId(Long id) {
+    private void validarId(Integer id) {
 
         if (id == null || id <= 0) {
             throw new IllegalArgumentException(
