@@ -1,0 +1,5 @@
+package com.auth_usuarios.config;
+
+public class RestTemplate {
+
+}

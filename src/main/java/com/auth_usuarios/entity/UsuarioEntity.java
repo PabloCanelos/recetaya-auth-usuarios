@@ -1,4 +1,4 @@
-package entity;
+package com.auth_usuarios.entity;
 
 import jakarta.persistence.*;
 
@@ -11,10 +11,10 @@ public class UsuarioEntity {
     @Column(name = "id_usuario")
     private Integer idUsuario;
 
-    @Column(name = "nombre", nullable = false, length = 100)
+    @Column(name = "nombre", nullable = false, length = 150)
     private String nombre;
 
-    @Column(name = "email", nullable = false, unique = true, length = 150)
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
     @Column(name = "password_hash", nullable = false, length = 255)

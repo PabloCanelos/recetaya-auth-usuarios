@@ -1,19 +1,19 @@
-package service;
+package com.auth_usuarios.service;
 
-import entity.RolEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.RolRepository;
+
+import com.auth_usuarios.entity.RolEntity;
+import com.auth_usuarios.repository.RolRepository;
 
 import java.util.List;
 
 @Service
 public class RolService {
+    @Autowired
+    private  RolRepository rolRepository;
 
-    private final RolRepository rolRepository;
 
-    public RolService(RolRepository rolRepository) {
-        this.rolRepository = rolRepository;
-    }
 
     // LISTAR TODOS
     public List<RolEntity> listarRoles() {
@@ -37,7 +37,7 @@ public class RolService {
 
         validarNombre(nombre);
 
-        return rolRepository.findByNombre(nombre.trim())
+        return rolRepository.findByNombre(nombre.trim().toUpperCase())
                 .orElseThrow(() ->
                         new IllegalArgumentException("El rol no existe"));
     }
@@ -127,9 +127,9 @@ public class RolService {
             );
         }
 
-        if (nombre.trim().length() > 50) {
+        if (nombre.trim().length() > 40) {
             throw new IllegalArgumentException(
-                    "El nombre del rol no puede superar los 50 caracteres"
+                    "El nombre del rol no puede superar los 40 caracteres"
             );
         }
     }

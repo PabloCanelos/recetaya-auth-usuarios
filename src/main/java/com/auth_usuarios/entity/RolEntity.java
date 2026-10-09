@@ -1,4 +1,4 @@
-package entity;
+package com.auth_usuarios.entity;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class RolEntity {
     @Column(name = "id_rol")
     private Integer idRol;
 
-    @Column(name = "nombre", nullable = false, unique = true, length = 50)
+    @Column(name = "nombre", nullable = false, unique = true, length = 40)
     private String nombre;
 
     @OneToMany(mappedBy = "rol")

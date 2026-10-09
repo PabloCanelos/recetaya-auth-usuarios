@@ -1,7 +1,8 @@
-package repository;
+package com.auth_usuarios.repository;
 
-import entity.RolEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.auth_usuarios.entity.RolEntity;
 
 import java.util.Optional;
 

@@ -1,7 +1,8 @@
-package repository;
+package com.auth_usuarios.repository;
 
-import entity.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.auth_usuarios.entity.UsuarioEntity;
 
 import java.util.Optional;
 
