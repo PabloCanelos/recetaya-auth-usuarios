@@ -1,96 +1,86 @@
-# RecetaYa – Microservicio Auth/Usuarios
+# RecetaYa — Microservicio de Autenticación y Usuarios
 
-Microservicio REST desarrollado con **Java 23, Spring Boot 4.1.1 y MySQL Server 8.4**, encargado de la autenticación JWT y la gestión de usuarios del sistema RecetaYa.
+Microservicio REST encargado del inicio de sesión, la autenticación mediante JWT y la gestión de usuarios del sistema RecetaYa.
 
-## Tecnologías
+## 1. Requisitos
 
-- Java 23 y Spring Boot 4.1.1
-- Spring Security y JWT
-- Spring Data JPA / Hibernate
-- MySQL Server 8.4
-- Maven
-- Postman
-- Git y GitHub
+Necesitas tener instalado:
 
-## Funcionalidades
-
-- Inicio de sesión mediante correo electrónico y contraseña.
-- Generación de tokens JWT.
-- CRUD de usuarios.
-- Activación y desactivación de cuentas.
-- Roles `MEDICO` y `FARMACEUTICO`.
-- Contraseñas almacenadas mediante BCrypt.
-- Persistencia de datos en MySQL.
-
-## Requisitos previos
-
-- JDK 21 o superior compatible.
+- Java JDK compatible con el proyecto.
 - MySQL Server 8.4.
 - Git.
-- Postman para probar los endpoints.
+- Postman para probar la API.
 
-El proyecto incluye Maven Wrapper, por lo que no requiere instalar Maven por separado.
+No necesitas instalar Maven por separado, porque el proyecto incluye Maven Wrapper.
 
-## Instalación y ejecución
+## 2. Descargar el proyecto
 
-### 1. Clonar el repositorio
+Abre PowerShell y ejecuta:
 
 ```powershell
 git clone https://github.com/PabloCanelos/recetaya-auth-usuarios.git
 cd recetaya-auth-usuarios
 ```
 
-### 2. Crear la base de datos
+## 3. Crear la base de datos
 
-Ejecutar en MySQL Workbench:
+Abre MySQL Workbench, conéctate a tu servidor MySQL y ejecuta:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS db_usuarios;
 ```
 
-La conexión predeterminada utiliza `localhost:3306` y la base de datos `db_usuarios`.
+## 4. Configurar la conexión
 
-### 3. Configurar las variables de entorno
-
-En PowerShell:
+Desde PowerShell, dentro de la carpeta del proyecto, ejecuta:
 
 ```powershell
 $env:DB_USERNAME = "root"
-$env:DB_PASSWORD = "CONTRASENA_DE_SU_MYSQL"
-$env:JWT_SECRET = "ClaveDeEjemploRecetaYaJWT2026Segura123456789"
+$env:DB_PASSWORD = Read-Host "Contraseña de MySQL"
+$env:JWT_SECRET = Read-Host "Clave secreta para JWT"
 ```
 
-Reemplazar la contraseña y la clave JWT por valores propios. El usuario de MySQL debe tener permisos sobre `db_usuarios`.
+Introduce tu contraseña real de MySQL y una clave secreta propia para JWT.
 
-Estas variables deben configurarse en la misma terminal donde se ejecutará el microservicio. No se deben publicar credenciales reales en GitHub.
+El usuario de MySQL debe tener permisos sobre `db_usuarios`. Estas variables deben configurarse en la misma terminal donde ejecutarás el microservicio.
 
-### 4. Iniciar Spring Boot
+No publiques contraseñas ni claves secretas reales en GitHub.
+
+## 5. Ejecutar el microservicio
+
+En la misma terminal, ejecuta:
 
 ```powershell
 .\mvnw.cmd spring-boot:run
 ```
 
-La aplicación se ejecutará en:
+La aplicación estará disponible en:
 
-`http://localhost:8081`
+http://localhost:8081
 
-En el primer inicio, Hibernate creará o actualizará las tablas mediante `spring.jpa.hibernate.ddl-auto=update`.
+En el primer inicio, Hibernate creará o actualizará las tablas automáticamente, según la configuración del proyecto.
 
-### 5. Inicializar los datos de demostración
+Mantén abierta la terminal mientras utilizas la API.
 
-Después del primer inicio de Spring Boot, abrir y ejecutar en MySQL Workbench el archivo incluido en el repositorio:
+## 6. Cargar los datos de demostración
 
-`inicializacion-demo.sql`
+Después de iniciar Spring Boot por primera vez:
 
-Este script incorpora los roles `MEDICO` y `FARMACEUTICO` y un usuario de demostración con contraseña almacenada mediante BCrypt.
+1. Abre MySQL Workbench.
+2. Abre el archivo `inicializacion-demo.sql` incluido en el repositorio.
+3. Selecciona la base de datos `db_usuarios` y ejecuta el script.
 
-## Prueba de autenticación
+El script crea los roles `MEDICO` y `FARMACEUTICO` y registra un usuario de demostración si todavía no existe.
 
-En Postman:
+## 7. Probar el inicio de sesión
 
-**POST** `http://localhost:8081/api/auth/login`
+Abre Postman y crea una solicitud con estos datos:
 
-Body → raw → JSON:
+**Método:** `POST`
+
+**URL:** `http://localhost:8081/api/auth/login`
+
+Selecciona **Body → raw → JSON** e introduce:
 
 ```json
 {
@@ -99,88 +89,74 @@ Body → raw → JSON:
 }
 ```
 
-**Resultado esperado:** HTTP `200 OK` y un token JWT.
+Si el usuario de demostración y su contraseña están correctamente configurados, recibirás una respuesta `200 OK` con un token JWT.
 
-Para acceder a los endpoints protegidos, seleccionar **Authorization → Bearer Token** en Postman y pegar el token obtenido.
+Para utilizar los endpoints protegidos, selecciona **Authorization → Bearer Token** en Postman y pega el token obtenido.
 
 El token tiene una vigencia de 60 minutos.
 
-## Endpoints disponibles
+## 8. Operaciones disponibles
 
 | Método | Endpoint | Función |
 |---|---|---|
 | POST | `/api/auth/login` | Iniciar sesión |
 | GET | `/api/usuarios` | Listar usuarios |
 | GET | `/api/usuarios/{id}` | Buscar usuario por ID |
-| GET | `/api/usuarios/email/{email}` | Buscar por correo |
+| GET | `/api/usuarios/email/{email}` | Buscar usuario por correo |
 | POST | `/api/usuarios` | Crear usuario |
 | PUT | `/api/usuarios/{id}` | Actualizar usuario |
 | DELETE | `/api/usuarios/{id}` | Eliminar usuario |
 | PATCH | `/api/usuarios/{id}/activar` | Activar cuenta |
 | PATCH | `/api/usuarios/{id}/desactivar` | Desactivar cuenta |
 
-Todos los endpoints de usuarios requieren un JWT válido.
+Las operaciones de usuarios requieren un token JWT válido.
 
-### Ejemplo: crear usuario
+## 9. Generar el archivo JAR
 
-**POST** `http://localhost:8081/api/usuarios`
-
-Authorization → Bearer Token
-
-```json
-{
-  "nombre": "Usuario de Prueba",
-  "email": "prueba@recetaya.cl",
-  "password": "PruebaRecetaYa2026!",
-  "idRol": 2
-}
-```
-
-El `idRol` debe corresponder a un rol existente en la base de datos.
-
-**Resultado esperado:** HTTP `201 Created`.
-
-## Generación del JAR
-
-Compilar el proyecto:
+Para compilar y empaquetar el proyecto, ejecuta:
 
 ```powershell
 .\mvnw.cmd clean package
 ```
 
-Resultado esperado: `BUILD SUCCESS`.
+Si la compilación termina correctamente, Maven mostrará `BUILD SUCCESS`.
 
-Ejecutar el artefacto generado:
+El archivo ejecutable se generará en la carpeta `target`.
+
+Para ejecutarlo:
 
 ```powershell
 java -jar target\ms-auth-usuarios-0.0.1-SNAPSHOT.jar
 ```
 
-MySQL debe estar iniciado y las variables de entorno configuradas.
+MySQL debe estar iniciado y las variables de entorno configuradas en esa terminal.
 
-## Respuestas HTTP principales
+## 10. Arquitectura
+
+El microservicio utiliza una arquitectura por capas:
+
+- **Controller:** recibe las solicitudes HTTP.
+- **Service:** ejecuta la lógica de negocio.
+- **Repository:** accede a la base de datos.
+- **Entity:** representa los datos almacenados.
+- **DTO:** organiza los datos de entrada y salida.
+- **Security:** gestiona la autenticación y protege los endpoints.
+
+La persistencia se realiza en MySQL. Las contraseñas se almacenan mediante BCrypt y la autenticación utiliza tokens JWT.
+
+## 11. Respuestas HTTP
 
 | Código | Significado |
 |---|---|
 | 200 | Operación exitosa |
 | 201 | Usuario creado |
-| 204 | Usuario eliminado |
+| 204 | Recurso eliminado |
 | 400 | Datos inválidos |
-| 401 | Credenciales de inicio de sesión incorrectas |
+| 401 | Credenciales incorrectas o autenticación no válida |
 | 403 | Acceso denegado |
 | 404 | Recurso no encontrado |
 | 409 | Conflicto de negocio |
 
-## Arquitectura
+**Nota:** las credenciales de demostración son exclusivamente para pruebas académicas. No deben utilizarse en producción.
 
-El microservicio está organizado por capas: **Controller, Service, Repository, Entity, DTO y Security**.
-
-Utiliza las entidades `Usuario` y `Rol`, relacionadas mediante una asociación de uno a muchos (1:N), con persistencia en la base de datos `db_usuarios`.
-
-Las operaciones CRUD, la autenticación JWT, la conexión MySQL y la generación del JAR fueron probadas durante el desarrollo.
-
-**Nota:** las credenciales de demostración y la configuración de permisos actual están destinadas a pruebas académicas, no a producción.
-
----
-
-**Proyecto académico RecetaYa – Duoc UC.**
+Proyecto académico RecetaYa — Duoc UC.
